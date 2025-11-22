@@ -7,6 +7,9 @@ selection_strategy: random
 delay_between_questions: 1.0
 delay_between_pages: 2.0
 
+# Checkbox selection probability (0.0 to 1.0, where 0.5 = 50% chance)
+checkbox_check_probability: 0.5
+
 # Preferred responses for specific keywords
 preferred_responses:
   satisfaction: high

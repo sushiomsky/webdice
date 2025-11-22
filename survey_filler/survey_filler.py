@@ -12,7 +12,6 @@ from .question_handlers import QuestionHandler
 from .config import SurveyConfig
 
 
-logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
@@ -116,6 +115,7 @@ class SurveyFiller:
             List of question dictionaries with type and element information
         """
         questions = []
+        seen_elements = set()
         
         # Look for various question patterns
         selectors = [
@@ -133,9 +133,13 @@ class SurveyFiller:
         for selector in selectors:
             elements = self.page.query_selector_all(selector)
             for element in elements:
-                question_info = self.question_handler.analyze_element(element)
-                if question_info and question_info not in questions:
-                    questions.append(question_info)
+                # Use element id to track if we've seen this element
+                element_id = id(element)
+                if element_id not in seen_elements:
+                    question_info = self.question_handler.analyze_element(element)
+                    if question_info:
+                        questions.append(question_info)
+                        seen_elements.add(element_id)
 
         logger.info(f"Found {len(questions)} questions on the page")
         return questions

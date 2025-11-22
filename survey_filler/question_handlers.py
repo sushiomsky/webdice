@@ -168,8 +168,8 @@ class QuestionHandler:
             # Check if already checked
             is_checked = element.is_checked()
             
-            # Decide whether to check or uncheck based on strategy
-            should_check = random.random() < 0.5  # 50% chance
+            # Decide whether to check or uncheck based on configured probability
+            should_check = random.random() < self.config.checkbox_check_probability
             
             if should_check and not is_checked:
                 element.click()
@@ -284,17 +284,34 @@ class QuestionHandler:
             """)
             
             if options:
-                # Select a random option (skip first if it's a placeholder)
-                if len(options) > 1:
-                    selected = random.choice(options[1:] if options[0] == '' else options)
-                else:
-                    selected = options[0]
-                
-                element.select_option(selected)
-                logger.info(f"Selected dropdown option: {selected}")
+                # Select a random option, excluding empty placeholder if present
+                selectable_options = self._get_selectable_options(options)
+                if selectable_options:
+                    selected = random.choice(selectable_options)
+                    element.select_option(selected)
+                    logger.info(f"Selected dropdown option: {selected}")
 
         except Exception as e:
             logger.error(f"Error handling select: {e}")
+
+    def _get_selectable_options(self, options: List[str]) -> List[str]:
+        """
+        Filter out empty placeholder options from dropdown options.
+
+        Args:
+            options: List of option values
+
+        Returns:
+            List of selectable option values
+        """
+        if not options:
+            return []
+        
+        # If first option is empty (placeholder), exclude it
+        if len(options) > 1 and options[0] == '':
+            return options[1:]
+        
+        return options
 
     def handle_number_input(self, question_info: Dict[str, Any]):
         """
