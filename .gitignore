@@ -38,10 +38,11 @@ env/
 # Logs
 *.log
 
-# Screenshots
+# Screenshots and test artifacts
 screenshots/
 *.png
 *.jpg
+test_survey_result.png
 
 # Playwright
 playwright-state/
