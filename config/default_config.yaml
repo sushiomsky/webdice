@@ -1,0 +1,23 @@
+# Default Survey Filler Configuration
+
+# Strategy for selecting options: 'random', 'first', 'middle', 'last'
+selection_strategy: random
+
+# Delays (in seconds)
+delay_between_questions: 1.0
+delay_between_pages: 2.0
+
+# Preferred responses for specific keywords
+preferred_responses:
+  satisfaction: high
+  recommend: yes
+  frequency: often
+
+# Demographics for profile-based questions
+demographics:
+  age: "25"
+  gender: "prefer not to say"
+  country: "United States"
+  employment: "Employed"
+  education: "Bachelor's degree"
+  income: "50000-75000"
