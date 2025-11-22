@@ -43,7 +43,7 @@ def main():
     
     # Run survey filler
     print("🚀 Starting browser...")
-    with SurveyFiller(config=config, headless=False) as filler:
+    with SurveyFiller(config=config, headless=True) as filler:
         print("📝 Filling survey...")
         success = filler.fill_survey(survey_url, max_pages=1)
         
